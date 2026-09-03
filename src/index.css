@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --color-bg: #F1F3F5;
+  --color-bg-secondary: #FFFFFF;
+  --color-bg-tertiary: #F7F8FA;
+  --color-surface: #FFFFFF;
+  --color-surface-hover: #F9FAFB;
+  --color-border: #D8DDE3;
+  --color-border-light: #E2E5E9;
+  --color-text: #142238;
+  --color-text-secondary: #4B5563;
+  --color-text-muted: #6B7280;
+  --color-accent: #F58220;
+  --color-accent-hover: #E87516;
+  --color-accent-light: #FFF3E8;
+  --color-danger: #EF4444;
+  --color-warning: #F59E0B;
+  --color-success: #10B981;
+  --color-today: #FFF3E8;
+  --color-danger-bg: #fee2e2;
+  --color-danger-text: #b91c1c;
+  --color-success-bg: #d1fae5;
+  --color-success-text: #065f46;
+
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+
+  --shadow-sm: 0 1px 2px rgba(20, 34, 56, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(20, 34, 56, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(20, 34, 56, 0.1);
+
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+
+  --header-height: 56px;
+  --sidebar-width: 220px;
+
+  --z-dropdown: 100;
+  --z-modal-backdrop: 200;
+  --z-modal: 300;
+  --z-toast: 400;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--color-accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+body.dark-theme {
+  --color-bg: #0F172A;
+  --color-bg-secondary: #1E293B;
+  --color-bg-tertiary: #0b1121;
+  --color-surface: #1E293B;
+  --color-surface-hover: #334155;
+  --color-border: #334155;
+  --color-border-light: #1E293B;
+  --color-text: #F8FAFC;
+  --color-text-secondary: #CBD5E1;
+  --color-text-muted: #94A3B8;
+  --color-today: rgba(245, 130, 32, 0.15);
+  --color-danger-bg: rgba(239, 68, 68, 0.15);
+  --color-danger-text: #fca5a5;
+  --color-success-bg: rgba(16, 185, 129, 0.15);
+  --color-success-text: #6ee7b7;
+
+}
+
+body.dark-theme input, 
+body.dark-theme textarea, 
+body.dark-theme select {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+body.dark-theme th {
+  background-color: var(--color-bg-tertiary) !important;
+  color: var(--color-text-secondary) !important;
+}
+
+body.dark-theme td {
+  border-color: var(--color-border);
+}
+
+body.dark-theme .logoBtn img {
+  filter: brightness(0) invert(1);
+}
+
+body.dark-theme .header {
+  background-color: var(--color-surface) !important;
+  border-bottom: 1px solid var(--color-border);
+}
+
+body.dark-theme .card {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+body.dark-theme .tab {
+  color: var(--color-text-secondary);
+}
+
+body.dark-theme .activeTab {
+  color: var(--color-accent);
+}
+
+body.dark-theme .userActions .avatar {
+  background-color: var(--color-accent);
+  color: white;
+}

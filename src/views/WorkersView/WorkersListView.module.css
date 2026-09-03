@@ -1,0 +1,187 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--color-bg-tertiary);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.headerLeft h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--color-text);
+}
+
+.listContainer {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.workerCard {
+  background: var(--color-surface);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid transparent;
+}
+
+.workerCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-color: var(--color-border);
+}
+
+.workerCard.inactive {
+  opacity: 0.7;
+}
+
+.workerInfo {
+  flex: 1;
+  min-width: 200px;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.colourDot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.nameRow h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--color-text);
+}
+
+.inactiveBadge {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  background-color: var(--color-border);
+  color: var(--color-text-muted);
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.detailsRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.trade {
+  font-weight: 500;
+}
+
+.assignmentInfo {
+  flex: 2;
+}
+
+.currentAssignment {
+  border-left: 4px solid var(--color-accent);
+  padding-left: 12px;
+  background-color: var(--color-bg-tertiary);
+  padding: 8px 12px;
+  border-radius: 0 4px 4px 0;
+}
+
+.assignmentTitle {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+}
+
+.assignmentDesc {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.noAssignment {
+  color: var(--color-text-muted);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.actions {
+  margin-left: auto;
+}
+
+.menuContainer {
+  position: relative;
+}
+
+.menuBtn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.menuBtn:hover {
+  background-color: var(--color-bg-tertiary);
+}
+
+.dropdownMenu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  z-index: 100;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdownMenu button {
+  padding: 12px 16px;
+  text-align: left;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+
+.dropdownMenu button:last-child {
+  border-bottom: none;
+}
+
+.dropdownMenu button:hover {
+  background-color: var(--color-bg-tertiary);
+}
+
+.dropdownMenu button.dangerBtn {
+  color: var(--color-danger);
+}

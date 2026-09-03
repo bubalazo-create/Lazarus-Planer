@@ -1,0 +1,137 @@
+
+.container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 1.8rem;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.filterSelect {
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  font-size: 1rem;
+  background-color: var(--color-bg);
+}
+
+.cardsContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.card {
+  background-color: var(--color-bg);
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.cardTitle {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.cardValue {
+  font-size: 2.2rem;
+  font-weight: bold;
+}
+
+.positive { color: var(--color-success); }
+.negative { color: var(--color-danger); }
+
+.section {
+  background-color: var(--color-bg);
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  border: 1px solid var(--color-border);
+  margin-bottom: 32px;
+}
+
+.sectionTitle {
+  font-size: 1.2rem;
+  margin-top: 0;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 12px;
+}
+
+.outstandingGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.outstandingItem {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+}
+
+.outstandingLabel {
+  color: var(--color-text-muted);
+}
+
+.outstandingValue {
+  font-weight: bold;
+  color: var(--color-danger);
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table th {
+  font-weight: 600;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.table tr:hover {
+  background-color: var(--color-bg-tertiary);
+}
+
+.rightAlign {
+  text-align: right !important;
+}
+
+@media (max-width: 768px) {
+  .cardsContainer {
+    grid-template-columns: 1fr;
+  }
+  .outstandingGrid {
+    grid-template-columns: 1fr;
+  }
+}

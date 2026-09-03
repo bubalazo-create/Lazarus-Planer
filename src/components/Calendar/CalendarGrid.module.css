@@ -1,0 +1,228 @@
+.gridContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.headerRow {
+  display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cornerCell {
+  width: 200px;
+  min-width: 200px;
+  position: sticky;
+  left: 0;
+  z-index: 30;
+  background-color: var(--color-bg-tertiary);
+  border-right: 1px solid var(--color-border);
+}
+
+.headerCell {
+  flex: 1;
+  min-width: 120px;
+  padding: 12px 8px;
+  text-align: center;
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.compactGrid .headerCell {
+  min-width: 40px;
+  padding: 8px 4px;
+}
+
+.dayShort {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.compactGrid .dayShort {
+  font-size: 0.65rem;
+  letter-spacing: 0;
+}
+
+.dayNum {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-top: 2px;
+}
+
+.compactGrid .dayNum {
+  font-size: 0.9rem;
+}
+
+.todayHeader {
+  color: var(--color-accent);
+}
+
+.todayHeader .dayShort, .todayHeader .dayNum {
+  color: var(--color-accent);
+}
+
+.sundayHeader {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.sundayHeader .dayShort,
+.sundayHeader .dayNum {
+  opacity: 0.7;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  min-height: 80px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.rowLabelCell {
+  width: 200px;
+  min-width: 200px;
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  background-color: var(--color-bg-tertiary);
+  border-right: 1px solid var(--color-border);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rowLabelClickable {
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.rowLabelClickable:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.labelIndicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.labelContent {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex: 1;
+}
+
+.rowActions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.mainLabel {
+  font-weight: 500;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.subLabel {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cell {
+  flex: 1;
+  min-width: 120px;
+  border-right: 1px solid var(--color-border);
+  padding: 4px;
+  transition: background-color 0.2s;
+  cursor: pointer;
+  position: relative;
+  background-color: var(--color-surface);
+}
+
+.compactGrid .cell {
+  min-width: 40px;
+  padding: 2px;
+}
+
+.cell:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.today {
+  background-color: var(--color-today);
+}
+
+.sunday {
+  background-color: var(--color-bg-tertiary);
+}
+
+.isOver {
+  background-color: var(--color-accent-light);
+}
+
+.cellContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 4px;
+}
+
+.separatorRow {
+  display: flex;
+  background-color: var(--color-bg-tertiary);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  left: 0;
+  width: max-content;
+  min-width: 100%;
+  z-index: 5;
+}
+
+.separatorLabel {
+  position: sticky;
+  left: 0;
+  padding: 12px 24px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+}
+
+/* Project planned period indicator — shown in project rows for dates within startDate..targetEndDate */
+.projectPlannedBand {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  opacity: 0.45;
+  pointer-events: none;
+}

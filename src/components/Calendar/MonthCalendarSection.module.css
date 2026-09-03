@@ -1,0 +1,108 @@
+.monthSection {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-surface);
+  overflow-y: auto;
+  flex: 1;
+}
+
+.monthHeaderWrapper {
+  padding: 16px 24px;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border);
+}
+
+.monthTitle {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.daysGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: minmax(120px, auto);
+}
+
+.dayCell {
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding: 8px;
+  background-color: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+  min-height: 120px;
+}
+
+.dayCell:nth-child(7n) {
+  border-right: none;
+}
+
+.dayCell:hover {
+  background-color: var(--color-bg);
+}
+
+.otherMonth {
+  background-color: var(--color-bg);
+  opacity: 0.6;
+}
+
+.today {
+  background-color: var(--color-today);
+}
+
+.dayNumber {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+.today .dayNumber {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.assignmentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .daysGrid {
+    grid-auto-rows: minmax(100px, auto);
+  }
+}
+
+.dragOver {
+  background-color: var(--color-surface-hover);
+}
+
+.otherMonth {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Project planned period indicators — coloured strips at the bottom of day cells */
+.projectPlannedList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.projectPlannedStrip {
+  height: 4px;
+  border-radius: 2px;
+  opacity: 0.5;
+  pointer-events: none;
+  width: 100%;
+}
+
