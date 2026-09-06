@@ -1,9 +1,16 @@
 export type ProjectStatus = 'Planned' | 'Active' | 'On Hold' | 'Completed';
 export type AssignmentStatus = 'Planned' | 'In Progress' | 'Completed';
 
+export type WorkerType = 'employee' | 'subcontractor' | 'subcontractor-worker' | 'self-employed';
+
 export interface Worker {
   id: string;
   name: string;
+  type?: WorkerType; // Optional for backward compatibility, defaults to 'employee' or legacy
+  subcontractorId?: string; // Link to parent subcontractor if type === 'subcontractor-worker'
+  vatNumber?: string; // For subcontractor companies
+  contactPerson?: string; // For subcontractor companies
+  address?: string; // For subcontractor companies
   colour: string;
   trade: string;
   active: boolean;

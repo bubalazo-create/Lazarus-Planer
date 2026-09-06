@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Project, WorkerEarning, WorkerPayment, SubcontractorInvoiceAllocation, ProjectClientPayment, Worker } from '../../models/types';
 import { useAppContext } from '../../context/AppContext';
+import { getProjectDisplayName } from '../../utils/projectUtils';
 import Button from '../../components/common/Button';
 import WorkerEarningForm from '../../components/Forms/WorkerEarningForm';
 import WorkerPaymentForm from '../../components/Forms/WorkerPaymentForm';
@@ -278,7 +279,7 @@ export default function ProjectFinancials({ projectId, onBack }: ProjectFinancia
 
         <div className={styles.header}>
           <div>
-            <h1 className={styles.title}>{project.name || project.client} - Financials</h1>
+            <h1 className={styles.title}>{getProjectDisplayName(project, state.clients)} - Financials</h1>
             {client && <p style={{ color: 'var(--color-text-muted)', marginTop: '4px' }}>Client: {client.name}</p>}
           </div>
           
@@ -620,3 +621,4 @@ export default function ProjectFinancials({ projectId, onBack }: ProjectFinancia
     </div>
   );
 }
+

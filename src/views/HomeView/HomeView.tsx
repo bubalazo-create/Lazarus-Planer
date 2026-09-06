@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+﻿import React, { useState, useMemo, useEffect } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { getProjectDisplayName } from '../../utils/projectUtils';
 import styles from './HomeView.module.css';
@@ -51,12 +51,12 @@ const WeatherWidget = () => {
          ) : (
             <>
               <div className={styles.weatherMain}>
-                 <span className={styles.weatherTemp}>{weather.current.temp}°C</span>
+                 <span className={styles.weatherTemp}>{weather.current.temp}В°C</span>
                  <span className={styles.weatherIcon}>{weather.current.icon}</span>
               </div>
               <div className={styles.weatherCondition}>{weather.current.condition}</div>
               <div className={styles.weatherDetails}>
-                Feels like {weather.current.feelsLike}°C<br/>
+                Feels like {weather.current.feelsLike}В°C<br/>
                 Wind {weather.current.windSpeed} km/h
               </div>
             </>
@@ -68,7 +68,7 @@ const WeatherWidget = () => {
             <div key={i} className={styles.forecastItem}>
               <div>{f.day}</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                {f.maxTemp}°C <span>{f.icon}</span>
+                {f.maxTemp}В°C <span>{f.icon}</span>
               </div>
             </div>
          ))}
@@ -90,7 +90,7 @@ const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
   if (hour < 12) greeting = 'Good morning';
   else if (hour < 18) greeting = 'Good afternoon';
 
-  const activeWorkersList = state.workers.filter(w => w.active);
+  const activeWorkersList = state.workers.filter(w => w.active && w.type !== 'subcontractor');
   const activeProjectsList = state.projects.filter(p => p.status === 'Active' || p.status === 'On Hold');
   
   const displayedWorkers = activeWorkersList.slice(0, 9);
@@ -189,7 +189,7 @@ const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
 
           <div className={styles.card} onClick={() => onNavigate('workers')}>
             <div className={styles.cardHeaderArea}>
-              <h2 className={styles.cardHeader}>WORKERS</h2>
+              <h2 className={styles.cardHeader}>WORKFORCE</h2>
               <div className={styles.cardStatArea}>
                 <p className={styles.cardValue}>{activeWorkersList.length}</p>
                 <p className={styles.cardLabel}>Active</p>
@@ -233,3 +233,4 @@ const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
 };
 
 export default HomeView;
+

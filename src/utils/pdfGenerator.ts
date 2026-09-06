@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { Worker, WorkerEarning, WorkerPayment, Project, Client } from '../models/types';
+import { Worker, WorkerEarning, WorkerPayment, Project, Client, SubcontractorInvoice } from '../models/types';
 import { formatDate } from './dateUtils';
 import { getProjectDisplayName } from './projectUtils';
 
@@ -23,7 +23,8 @@ export async function generateWorkerStatement(
   periodLabel: string,
   totalEarned: number,
   totalPaid: number,
-  balance: number
+  balance: number,
+  invoices?: SubcontractorInvoice[]
 ) {
   const doc = new jsPDF();
   let fontName = 'helvetica';
@@ -109,48 +110,87 @@ export async function generateWorkerStatement(
 
   let currentY = worker.trade ? 95 : 90;
 
-  // Earnings Table
+  // Earnings or Invoices Table
   doc.setTextColor(hexToRgb(accentColor)[0], hexToRgb(accentColor)[1], hexToRgb(accentColor)[2]);
   doc.setFontSize(12);
   doc.setFont(fontName, 'bold');
-  doc.text('EARNINGS', 14, currentY);
+  
+  const showInvoices = invoices !== undefined;
+  doc.text(showInvoices ? 'INVOICES' : 'EARNINGS', 14, currentY);
   currentY += 4;
 
-  if (earnings.length === 0) {
-    doc.setTextColor(hexToRgb(textMuted)[0], hexToRgb(textMuted)[1], hexToRgb(textMuted)[2]);
-    doc.setFontSize(10);
-    doc.setFont(fontName, 'italic');
-    doc.text('No earnings recorded for this period.', 14, currentY + 4);
-    currentY += 12;
-  } else {
-    const earningRows = earnings.map(e => {
-      let projectName = 'No Project';
-      if (e.projectId) {
-        const proj = projects.find(p => p.id === e.projectId);
-        if (proj) projectName = getProjectDisplayName(proj, clients);
-      }
-      return [
-        formatDate(new Date(e.date)),
-        projectName,
-        e.description,
-        `EUR ${(e.amount ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-      ];
-    });
+  if (showInvoices) {
+    const invs = invoices || [];
+    if (invs.length === 0) {
+      doc.setTextColor(hexToRgb(textMuted)[0], hexToRgb(textMuted)[1], hexToRgb(textMuted)[2]);
+      doc.setFontSize(10);
+      doc.setFont(fontName, 'italic');
+      doc.text('No invoices recorded for this period.', 14, currentY + 4);
+      currentY += 12;
+    } else {
+      const invoiceRows = invs.map(inv => {
+        return [
+          formatDate(new Date(inv.date)),
+          inv.invoiceNumber ? `#` + inv.invoiceNumber : 'None',
+          inv.notes || '-',
+          `EUR ${(inv.totalAmount ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+          `EUR ${(inv.vatAmount ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+          `EUR ${(inv.grossAmount ?? inv.totalAmount ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+        ];
+      });
 
-    autoTable(doc, {
-      startY: currentY,
-      head: [['Date', 'Project', 'Description', 'Amount']],
-      body: earningRows,
-      foot: [['', '', 'Total Earned', `EUR ${(totalEarned ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`]],
-      theme: 'grid',
-      headStyles: { fillColor: hexToRgb(accentColor), textColor: [255, 255, 255], font: fontName, fontStyle: 'bold' },
-      footStyles: { fillColor: [240, 240, 240], textColor: hexToRgb(textDark), font: fontName, fontStyle: 'bold' },
-      bodyStyles: { textColor: hexToRgb(textDark), font: fontName },
-      alternateRowStyles: { fillColor: [250, 250, 250] },
-      margin: { left: 14, right: 14 },
-      styles: { fontSize: 9 },
-    });
-    currentY = (doc as any).lastAutoTable.finalY + 12;
+      autoTable(doc, {
+        startY: currentY,
+        head: [['Date', 'Invoice No.', 'Notes', 'Net Amount', 'VAT', 'Gross Amount']],
+        body: invoiceRows,
+        foot: [['', '', 'Total Invoiced', '', '', `EUR ${(totalEarned ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`]],
+        theme: 'grid',
+        headStyles: { fillColor: hexToRgb(accentColor), textColor: [255, 255, 255], font: fontName, fontStyle: 'bold' },
+        footStyles: { fillColor: [240, 240, 240], textColor: hexToRgb(textDark), font: fontName, fontStyle: 'bold' },
+        bodyStyles: { textColor: hexToRgb(textDark), font: fontName },
+        alternateRowStyles: { fillColor: [250, 250, 250] },
+        margin: { left: 14, right: 14 },
+        styles: { fontSize: 9 },
+      });
+      currentY = (doc as any).lastAutoTable.finalY + 12;
+    }
+  } else {
+    if (earnings.length === 0) {
+      doc.setTextColor(hexToRgb(textMuted)[0], hexToRgb(textMuted)[1], hexToRgb(textMuted)[2]);
+      doc.setFontSize(10);
+      doc.setFont(fontName, 'italic');
+      doc.text('No earnings recorded for this period.', 14, currentY + 4);
+      currentY += 12;
+    } else {
+      const earningRows = earnings.map(e => {
+        let projectName = 'No Project';
+        if (e.projectId) {
+          const proj = projects.find(p => p.id === e.projectId);
+          if (proj) projectName = getProjectDisplayName(proj, clients);
+        }
+        return [
+          formatDate(new Date(e.date)),
+          projectName,
+          e.description,
+          `EUR ${(e.amount ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+        ];
+      });
+
+      autoTable(doc, {
+        startY: currentY,
+        head: [['Date', 'Project', 'Description', 'Amount']],
+        body: earningRows,
+        foot: [['', '', 'Total Earned', `EUR ${(totalEarned ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`]],
+        theme: 'grid',
+        headStyles: { fillColor: hexToRgb(accentColor), textColor: [255, 255, 255], font: fontName, fontStyle: 'bold' },
+        footStyles: { fillColor: [240, 240, 240], textColor: hexToRgb(textDark), font: fontName, fontStyle: 'bold' },
+        bodyStyles: { textColor: hexToRgb(textDark), font: fontName },
+        alternateRowStyles: { fillColor: [250, 250, 250] },
+        margin: { left: 14, right: 14 },
+        styles: { fontSize: 9 },
+      });
+      currentY = (doc as any).lastAutoTable.finalY + 12;
+    }
   }
 
   // Payments Table
@@ -173,20 +213,36 @@ export async function generateWorkerStatement(
         const proj = projects.find(proj => proj.id === p.projectId);
         if (proj) projectName = getProjectDisplayName(proj, clients);
       }
-      return [
-        formatDate(new Date(p.date)),
-        projectName,
-        p.method || '-',
-        p.notes || '-',
-        `EUR ${(p.amount ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-      ];
+
+      let invoiceDisplay = '-';
+      if (p.invoiceNumber) invoiceDisplay = `#${p.invoiceNumber}`;
+      else if (p.invoiceId) invoiceDisplay = 'Linked';
+
+      if (showInvoices) {
+        return [
+          formatDate(new Date(p.date)),
+          projectName,
+          invoiceDisplay,
+          p.method || '-',
+          p.notes || '-',
+          `EUR ${(p.amount ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+        ];
+      } else {
+        return [
+          formatDate(new Date(p.date)),
+          projectName,
+          p.method || '-',
+          p.notes || '-',
+          `EUR ${(p.amount ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+        ];
+      }
     });
 
     autoTable(doc, {
       startY: currentY,
-      head: [['Date', 'Project', 'Method', 'Notes', 'Amount']],
+      head: [showInvoices ? ['Date', 'Project', 'Invoice', 'Method', 'Notes', 'Amount'] : ['Date', 'Project', 'Method', 'Notes', 'Amount']],
       body: paymentRows,
-      foot: [['', '', '', 'Total Paid', `EUR ${(totalPaid ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`]],
+      foot: [showInvoices ? ['', '', '', '', 'Total Paid', `EUR ${(totalPaid ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`] : ['', '', '', 'Total Paid', `EUR ${(totalPaid ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`]],
       theme: 'grid',
       headStyles: { fillColor: hexToRgb(accentColor), textColor: [255, 255, 255], font: fontName, fontStyle: 'bold' },
       footStyles: { fillColor: [240, 240, 240], textColor: hexToRgb(successColor), font: fontName, fontStyle: 'bold' },
@@ -463,3 +519,5 @@ export async function generateProjectStatement(
   const safePeriod = periodLabel.replace(/[^a-z0-9]/gi, '_').toLowerCase();
   doc.save(`Project_Statement_${safeName}_${safePeriod}.pdf`);
 }
+
+

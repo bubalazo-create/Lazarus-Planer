@@ -29,3 +29,5 @@ data.sqlite
 commands.json
 jsPDF_contents.json
 jsPDF_lines.txt
+
+Lazarus_backup_*.json

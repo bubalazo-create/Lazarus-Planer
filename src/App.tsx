@@ -10,14 +10,18 @@ import ExpensesView from './views/ExpensesView/ExpensesView';
 import FinancialOverviewView from './views/FinancialOverviewView/FinancialOverviewView';
 import SettingsView from './views/SettingsView/SettingsView';
 
-type ViewType = 'home' | 'workers' | 'projects' | 'clients' | 'finances' | 'expenses' | 'calendar' | 'settings';
+import InvoiceImportView from './views/InvoiceImportView/InvoiceImportView';
+
+type ViewType = 'home' | 'workers' | 'projects' | 'clients' | 'finances' | 'expenses' | 'calendar' | 'settings' | 'import-centre';
 
 function App() {
   const [activeView, setActiveView] = useState<ViewType>('home');
   const [viewParams, setViewParams] = useState<any>({});
+  const [navTick, setNavTick] = useState(0);
 
   const handleNavigate = (view: ViewType, params?: any) => {
     setActiveView(view);
+    setNavTick(t => t + 1);
     if (params) {
       setViewParams(params);
     } else {
@@ -28,21 +32,23 @@ function App() {
   const renderView = () => {
     switch (activeView) {
       case 'home':
-        return <HomeView onNavigate={handleNavigate} />;
+        return <HomeView key={navTick} onNavigate={handleNavigate} />;
       case 'workers':
-        return <WorkersListView initialWorkerId={viewParams?.workerId} onClearInitial={() => setViewParams({})} />;
+        return <WorkersListView key={navTick} initialWorkerId={viewParams?.workerId} onClearInitial={() => setViewParams({})} />;
       case 'projects':
-        return <ProjectsListView initialProjectId={viewParams?.projectId} onClearInitial={() => setViewParams({})} />;
+        return <ProjectsListView key={navTick} initialProjectId={viewParams?.projectId} onClearInitial={() => setViewParams({})} />;
       case 'clients':
-        return <ClientsView />;
+        return <ClientsView key={navTick} />;
       case 'finances':
-        return <FinancialOverviewView />;
+        return <FinancialOverviewView key={navTick} />;
       case 'expenses':
-        return <ExpensesView />;
+        return <ExpensesView key={navTick} />;
       case 'calendar':
-        return <CalendarHubView />;
+        return <CalendarHubView key={navTick} />;
       case 'settings':
-        return <SettingsView />;
+        return <SettingsView key={navTick} />;
+      case 'import-centre':
+        return <InvoiceImportView key={navTick} />;
       default:
         return <HomeView onNavigate={handleNavigate} />;
     }

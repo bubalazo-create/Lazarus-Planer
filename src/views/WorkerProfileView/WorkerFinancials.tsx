@@ -203,16 +203,22 @@ export default function WorkerFinancials({ workerId, onBack }: WorkerFinancialsP
     if (filter === 'custom') periodLabel = `${customStartDate} to ${customEndDate}`;
     if (filter === 'single_project') periodLabel = `Project: ${getProjectName(selectedProjectId)}`;
 
+    const paymentsForPdf = filteredPayments.map(p => {
+      const inv = p.invoiceId ? state.subcontractorInvoices.find(i => i.id === p.invoiceId) : null;
+      return { ...p, invoiceNumber: inv?.invoiceNumber || p.invoiceNumber };
+    });
+
     generateWorkerStatement(
       worker,
       fauxEarnings as WorkerEarning[],
-      filteredPayments,
+      paymentsForPdf,
       state.projects,
       state.clients,
       periodLabel,
       totalEarned,
       totalPaid,
-      balance
+      balance,
+      worker.paymentType === 'project' && filter !== 'single_project' ? filteredInvoices : undefined
     );
   };
 

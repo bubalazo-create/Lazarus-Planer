@@ -1,0 +1,1 @@
+﻿const fs = require('fs'); let c = fs.readFileSync('src/views/WorkerProfileView/WorkerFinancials.tsx', 'utf8'); const regex = /<Button variant="secondary" onClick=\{handleDownloadPDF\}>.*?Download Statement<\/Button>/; console.log(c.match(regex) ? c.match(regex)[0] : 'not found');

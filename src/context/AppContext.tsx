@@ -450,7 +450,23 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       let expenseAllocations: ExpenseAllocation[] = [];
       try {
         const stored = localStorage.getItem('lazarus_client_invoices');
-        if (stored) clientInvoices = JSON.parse(stored);
+        if (stored) {
+          clientInvoices = JSON.parse(stored);
+          let modified = false;
+          clientInvoices = clientInvoices.map((inv: any) => {
+             if (inv.date && inv.date.includes('/')) {
+                const parts = inv.date.split('/');
+                if (parts.length === 3) {
+                   modified = true;
+                   return { ...inv, date: `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}` };
+                }
+             }
+             return inv;
+          });
+          if (modified) {
+             localStorage.setItem('lazarus_client_invoices', JSON.stringify(clientInvoices));
+          }
+        }
         const storedE = localStorage.getItem('lazarus_expenses');
         if (storedE) expenses = JSON.parse(storedE);
         const storedEA = localStorage.getItem('lazarus_expense_allocations');

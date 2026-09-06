@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
   --color-bg: #F1F3F5;
@@ -131,9 +131,7 @@ body.dark-theme td {
   border-color: var(--color-border);
 }
 
-body.dark-theme .logoBtn img {
-  filter: brightness(0) invert(1);
-}
+body.dark-theme [class*="logoBtn"] img, body.dark-theme img[alt="Lazarus Turnkey Contractor"] { filter: invert(1) hue-rotate(180deg) brightness(1.1) contrast(1.2); mix-blend-mode: screen; }
 
 body.dark-theme .header {
   background-color: var(--color-surface) !important;
@@ -157,3 +155,4 @@ body.dark-theme .userActions .avatar {
   background-color: var(--color-accent);
   color: white;
 }
+

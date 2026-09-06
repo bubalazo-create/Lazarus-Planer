@@ -15,7 +15,7 @@ const ProjectsListView: React.FC<ProjectsListViewProps> = ({ initialProjectId, o
   const { state, dispatch } = useAppContext();
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(initialProjectId || null);
   const [isProjectFormOpen, setIsProjectFormOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'Active' | 'Planned' | 'Completed'>('Active');
+  const [activeTab, setActiveTab] = useState<'Active' | 'Planned' | 'On Hold' | 'Completed'>('Active');
   const [completedYear, setCompletedYear] = useState<number>(new Date().getFullYear());
 
   const handleAddProject = () => {
@@ -34,8 +34,9 @@ const ProjectsListView: React.FC<ProjectsListViewProps> = ({ initialProjectId, o
     );
   }
 
-  const activeProjects = state.projects.filter(p => !p.status || p.status === 'Active' || p.status === 'On Hold');
+  const activeProjects = state.projects.filter(p => !p.status || p.status === 'Active');
   const plannedProjects = state.projects.filter(p => p.status === 'Planned');
+  const onHoldProjects = state.projects.filter(p => p.status === 'On Hold');
   
   const completedProjectsAll = state.projects.filter(p => p.status === 'Completed');
   const completedProjects = completedProjectsAll.filter(p => {
@@ -61,10 +62,11 @@ const ProjectsListView: React.FC<ProjectsListViewProps> = ({ initialProjectId, o
 
   const displayedProjects = activeTab === 'Active' ? activeProjects 
                           : activeTab === 'Planned' ? plannedProjects 
+                          : activeTab === 'On Hold' ? onHoldProjects
                           : completedProjects;
 
   // Reset to current year when switching to Completed
-  const handleTabChange = (tab: 'Active' | 'Planned' | 'Completed') => {
+  const handleTabChange = (tab: 'Active' | 'Planned' | 'On Hold' | 'Completed') => {
     setActiveTab(tab);
     if (tab === 'Completed') {
       setCompletedYear(new Date().getFullYear());
@@ -94,6 +96,12 @@ const ProjectsListView: React.FC<ProjectsListViewProps> = ({ initialProjectId, o
           onClick={() => handleTabChange('Planned')}
         >
           Planned ({plannedProjects.length})
+        </button>
+        <button 
+          className={`${styles.tabBtn} ${activeTab === 'On Hold' ? styles.activeTab : ''}`}
+          onClick={() => handleTabChange('On Hold')}
+        >
+          On Hold ({onHoldProjects.length})
         </button>
         <button 
           className={`${styles.tabBtn} ${activeTab === 'Completed' ? styles.activeTab : ''}`}
@@ -142,11 +150,11 @@ const ProjectsListView: React.FC<ProjectsListViewProps> = ({ initialProjectId, o
             <div 
               key={project.id} 
               className={`${styles.projectCard} ${project.status === 'Completed' ? styles.completed : ''}`}
+              style={{ borderLeftColor: project.colour }}
               onClick={() => setSelectedProjectId(project.id)}
             >
               <div className={styles.projectInfo}>
                 <div className={styles.nameRow}>
-                  <span className={styles.colourDot} style={{ backgroundColor: project.colour }}></span>
                   <h3>{getProjectDisplayName(project, state.clients)}</h3>
                   {project.status === 'Completed' && <span className={styles.completedBadge}>Completed</span>}
                 </div>
@@ -171,3 +179,4 @@ const ProjectsListView: React.FC<ProjectsListViewProps> = ({ initialProjectId, o
 };
 
 export default ProjectsListView;
+

@@ -1,0 +1,172 @@
+﻿.container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.title {
+  margin: 0;
+  font-size: 24px;
+  color: var(--color-text);
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  color: var(--color-text-light, #6b7280);
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.tableContainer {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table th, .table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table th {
+  font-weight: 500;
+  color: var(--color-text-light, #6b7280);
+  background-color: var(--color-bg-tertiary, #f9fafb);
+}
+
+.cancelledRow {
+  opacity: 0.6;
+  background-color: var(--color-bg-tertiary, #f3f4f6);
+}
+
+.emptyState {
+  text-align: center;
+  padding: 48px;
+  color: var(--color-text-light, #6b7280);
+}
+
+.detailsModal {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.detailsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  background: var(--color-bg-tertiary, #f9fafb);
+  padding: 16px;
+  border-radius: var(--radius-sm);
+}
+
+.detailsGrid > div {
+  font-size: 14px;
+}
+
+.errors {
+  color: var(--color-danger-text, #b91c1c);
+  background: var(--color-danger-bg, #fee2e2);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+}
+
+.errors ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+
+.rawText {
+  background: var(--color-bg-tertiary, #f9fafb);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.rawText pre {
+  margin: 8px 0 0;
+  font-size: 12px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.clientBadge { margin-left: 8px; font-size: 10px; }
+
+.editModal {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.editForm {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.formGroup label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-light);
+}
+.formGroup input, .formGroup select {
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 14px;
+}
+.warningBox {
+  background: var(--color-danger-bg, #fee2e2);
+  color: var(--color-danger-text, #b91c1c);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+}
+.rawTextPreview details {
+  background: var(--color-bg-tertiary, #f9fafb);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+}
+.rawTextPreview summary {
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--color-text-light);
+}
+.rawTextPreview pre {
+  margin-top: 10px;
+  font-size: 12px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.newProjectBox { background: var(--color-bg-tertiary, #f9fafb); padding: 16px; border-radius: var(--radius-sm); border: 1px dashed var(--color-border); } .newProjectBox h4 { margin: 0 0 12px 0; font-size: 14px; color: var(--color-text); }

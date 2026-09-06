@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/pdfjs-dist": "^2.10.377",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
     "@types/uuid": "^10.0.0",
@@ -25,6 +26,7 @@
     "date-fns": "^4.4.0",
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.8",
+    "pdfjs-dist": "^6.3.289",
     "puppeteer": "^25.9.0",
     "react-datepicker": "^9.1.0",
     "react-router-dom": "^7.18.2",

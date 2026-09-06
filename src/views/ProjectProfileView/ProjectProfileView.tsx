@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useAppContext } from '../../context/AppContext';
 import { getProjectDisplayName } from '../../utils/projectUtils';
+import { Worker } from '../../models/types';
 import Button from '../../components/common/Button';
 import ProjectForm from '../../components/Forms/ProjectForm';
 import ConfirmDialog from '../../components/common/ConfirmDialog';
 import ProjectScheduleView from '../ProjectScheduleView/ProjectScheduleView';
 import ProjectFinancials from '../ProjectFinancialsView/ProjectFinancials';
+import { parseISO } from 'date-fns';
 import styles from './ProjectProfileView.module.css';
 
 interface ProjectProfileViewProps {
@@ -59,6 +61,26 @@ export default function ProjectProfileView({ projectId, onBack }: ProjectProfile
     }
   };
 
+  const today = new Date();
+  const currentAssignments = state.assignments.filter(a => 
+    a.projectId === projectId && 
+    parseISO(a.startDate) <= today && 
+    parseISO(a.endDate) >= today
+  );
+
+  const assignedWorkers = currentAssignments.map(a => state.workers.find(w => w.id === a.workerId)).filter(Boolean) as Worker[];
+
+  const employees = assignedWorkers.filter(w => !w.type || w.type === 'employee');
+  const selfEmployed = assignedWorkers.filter(w => w.type === 'self-employed');
+  const subWorkers = assignedWorkers.filter(w => w.type === 'subcontractor-worker');
+
+  const subGroup = subWorkers.reduce((acc, worker) => {
+    const subId = worker.subcontractorId || 'unknown';
+    if (!acc[subId]) acc[subId] = [];
+    acc[subId].push(worker);
+    return acc;
+  }, {} as Record<string, Worker[]>);
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -109,7 +131,7 @@ export default function ProjectProfileView({ projectId, onBack }: ProjectProfile
               <div className={styles.actionTitle}>Schedule</div>
             </div>
             <div className={styles.actionCard} onClick={() => setView('financials')}>
-              <div className={styles.actionIcon}>💰</div>
+              <div className={styles.actionIcon}>💶</div>
               <div className={styles.actionTitle}>Earnings & Payments</div>
             </div>
             <div className={styles.actionCard} onClick={() => setIsEditing(true)}>
@@ -121,6 +143,72 @@ export default function ProjectProfileView({ projectId, onBack }: ProjectProfile
               <div className={styles.actionTitle}>Delete Project</div>
             </div>
           </div>
+          
+          <div style={{ marginTop: '40px', paddingTop: '24px', borderTop: '1px solid var(--color-border)' }}>
+            <h3 style={{ marginBottom: '24px', fontSize: '1.2rem', color: 'var(--color-text)' }}>Current Assigned Workforce</h3>
+            
+            {assignedWorkers.length === 0 ? (
+              <p style={{ color: 'var(--color-text-muted)' }}>No workforce currently assigned to this project today.</p>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                
+                {employees.length > 0 && (
+                  <div>
+                    <h4 style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', letterSpacing: '0.05em', marginBottom: '8px' }}>EMPLOYEES</h4>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                      {employees.map(w => (
+                        <li key={w.id} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: w.colour }}></span>
+                          <span style={{ fontWeight: 500 }}>{w.name}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {Object.keys(subGroup).length > 0 && (
+                  <div>
+                    <h4 style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', letterSpacing: '0.05em', marginBottom: '16px' }}>SUBCONTRACTORS</h4>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                      {Object.entries(subGroup).map(([subId, workers]) => {
+                        const subCompany = state.workers.find(w => w.id === subId);
+                        const companyName = subCompany ? subCompany.name : 'Unknown Subcontractor';
+                        return (
+                          <div key={subId} style={{ paddingLeft: '12px', borderLeft: `3px solid ${subCompany?.colour || 'var(--color-border)'}` }}>
+                            <div style={{ fontWeight: 600, marginBottom: '6px' }}>{companyName}</div>
+                            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                              {workers.map(w => (
+                                <li key={w.id} style={{ display: 'flex', alignItems: 'center', gap: '8px', paddingLeft: '8px', color: 'var(--color-text)' }}>
+                                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: w.colour }}></span>
+                                  <span>{w.name}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {selfEmployed.length > 0 && (
+                  <div>
+                    <h4 style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', letterSpacing: '0.05em', marginBottom: '8px' }}>SELF-EMPLOYED</h4>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                      {selfEmployed.map(w => (
+                        <li key={w.id} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: w.colour }}></span>
+                          <span style={{ fontWeight: 500 }}>{w.name}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+              </div>
+            )}
+          </div>
+
         </div>
       </div>
       
