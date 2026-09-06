@@ -271,7 +271,9 @@ export async function generateWorkerStatement(
 
   const safeName = worker.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
   const safePeriod = periodLabel.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-  doc.save(`Worker_Statement_${safeName}_${safePeriod}.pdf`);
+  const now = new Date();
+  const ts = `${now.getFullYear()}${(now.getMonth()+1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}_${now.getHours().toString().padStart(2, '0')}${now.getMinutes().toString().padStart(2, '0')}${now.getSeconds().toString().padStart(2, '0')}`;
+  doc.save(`Worker_Statement_${safeName}_${safePeriod}_${ts}.pdf`);
 }
 
 
@@ -395,9 +397,9 @@ export async function generateProjectStatement(
       const wBalance = wEarned - wPaid;
       return [
         w.name,
-        `€${wEarned.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
-        `€${wPaid.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
-        `€${wBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+        `в‚¬${wEarned.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+        `в‚¬${wPaid.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+        `в‚¬${wBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
       ];
     });
 
@@ -435,7 +437,7 @@ export async function generateProjectStatement(
         formatDate(new Date(e.date)),
         w ? w.name : 'Former Worker',
         e.description,
-        `€${(e.amount ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+        `в‚¬${(e.amount ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
       ];
     });
 
@@ -443,7 +445,7 @@ export async function generateProjectStatement(
       startY: currentY,
       head: [['Date', 'Worker', 'Description', 'Amount']],
       body: earningRows,
-      foot: [['', '', 'Total Earned', `€${(totalEarned ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`]],
+      foot: [['', '', 'Total Earned', `в‚¬${(totalEarned ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`]],
       theme: 'grid',
       headStyles: { fillColor: hexToRgb(accentColor), textColor: [255, 255, 255], font: fontName, fontStyle: 'bold' },
       footStyles: { fillColor: [240, 240, 240], textColor: hexToRgb(textDark), font: fontName, fontStyle: 'bold' },
@@ -475,7 +477,7 @@ export async function generateProjectStatement(
         w ? w.name : 'Former Worker',
         p.method || '-',
         p.notes || '-',
-        `€${(p.amount ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+        `в‚¬${(p.amount ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
       ];
     });
 
@@ -483,7 +485,7 @@ export async function generateProjectStatement(
       startY: currentY,
       head: [['Date', 'Worker', 'Method', 'Notes', 'Amount']],
       body: paymentRows,
-      foot: [['', '', '', 'Total Paid', `€${(totalPaid ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`]],
+      foot: [['', '', '', 'Total Paid', `в‚¬${(totalPaid ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`]],
       theme: 'grid',
       headStyles: { fillColor: hexToRgb(accentColor), textColor: [255, 255, 255], font: fontName, fontStyle: 'bold' },
       footStyles: { fillColor: [240, 240, 240], textColor: hexToRgb(successColor), font: fontName, fontStyle: 'bold' },
@@ -512,12 +514,15 @@ export async function generateProjectStatement(
   
   doc.setTextColor(hexToRgb(balanceColor)[0], hexToRgb(balanceColor)[1], hexToRgb(balanceColor)[2]);
   doc.setFontSize(16);
-  doc.text(`€${(balance ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 190, currentY + 15, { align: 'right' });
+  doc.text(`в‚¬${(balance ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 190, currentY + 15, { align: 'right' });
 
   // Safe Filename
   const safeName = getProjectDisplayName(project, clients).replace(/[^a-z0-9]/gi, '_').toLowerCase();
   const safePeriod = periodLabel.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-  doc.save(`Project_Statement_${safeName}_${safePeriod}.pdf`);
+  const now = new Date();
+  const ts = `${now.getFullYear()}${(now.getMonth()+1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}_${now.getHours().toString().padStart(2, '0')}${now.getMinutes().toString().padStart(2, '0')}${now.getSeconds().toString().padStart(2, '0')}`;
+  doc.save(`Project_Statement_${safeName}_${safePeriod}_${ts}.pdf`);
 }
+
 
 
