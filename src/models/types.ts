@@ -56,6 +56,17 @@ export interface Project {
   notes: string;
   totalValue?: number;
   completedAt?: string;
+  enableWeeklyWorkflow?: boolean;
+}
+
+export interface WorkflowActivity {
+  id: string;
+  projectId: string;
+  name: string;
+  category: string;
+  startDate: string;
+  endDate: string;
+  notes?: string;
 }
 
 export interface Assignment {

@@ -54,3 +54,13 @@ export function getAutoAssignedColor(existingColors: string[], palette: string[]
 
   return bestColor;
 }
+
+export function getCategoryColor(category: string): string {
+  if (!category) return PROJECT_PALETTE[0];
+  let hash = 0;
+  for (let i = 0; i < category.length; i++) {
+    hash = category.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const index = Math.abs(hash) % PROJECT_PALETTE.length;
+  return PROJECT_PALETTE[index];
+}

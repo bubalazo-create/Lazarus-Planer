@@ -148,7 +148,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 160px;
+  min-height: 160px;
 }
 
 .actionCard:hover {

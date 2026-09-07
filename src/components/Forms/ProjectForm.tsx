@@ -38,6 +38,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ isOpen, onClose, project }) =
           status: 'Planned',
           colour: '',
           notes: '',
+          enableWeeklyWorkflow: false,
         });
         setClientType('none');
       }
@@ -211,6 +212,19 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ isOpen, onClose, project }) =
           onChange={(val) => handleChange('notes', val)}
           multiline
         />
+        
+        <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <input
+            type="checkbox"
+            id="enableWeeklyWorkflow"
+            checked={formData.enableWeeklyWorkflow || false}
+            onChange={(e) => handleChange('enableWeeklyWorkflow', e.target.checked)}
+            style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+          />
+          <label htmlFor="enableWeeklyWorkflow" style={{ fontSize: '0.95rem', color: 'var(--color-text)', fontWeight: 500, cursor: 'pointer', userSelect: 'none' }}>
+            Enable Weekly Workflow
+          </label>
+        </div>
         
         <div className={styles.actions}>
           {project && (

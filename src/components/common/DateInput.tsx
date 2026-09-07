@@ -14,6 +14,7 @@ export interface DateInputProps {
   onChange: (value: string) => void;
   required?: boolean;
   className?: string;
+  openToDate?: Date;
 }
 
 export default function DateInput({
@@ -22,6 +23,7 @@ export default function DateInput({
   onChange,
   required,
   className = '',
+  openToDate,
 }: DateInputProps) {
   let selectedDate = null;
   if (value) {
@@ -29,8 +31,9 @@ export default function DateInput({
     selectedDate = new Date(parseInt(y, 10), parseInt(m, 10) - 1, parseInt(d, 10));
   }
 
+  const initialDate = selectedDate || openToDate || new Date();
   const [navMode, setNavMode] = useState<'days' | 'months' | 'years'>('days');
-  const [navYear, setNavYear] = useState<number>(selectedDate ? selectedDate.getFullYear() : new Date().getFullYear());
+  const [navYear, setNavYear] = useState<number>(initialDate.getFullYear());
 
   return (
     <div className={`${styles.container} ${className} lazarus-date-wrapper`}>
@@ -58,6 +61,9 @@ export default function DateInput({
         fixedHeight
         className={styles.input}
         required={required}
+        openToDate={openToDate}
+        portalId="root"
+        popperPlacement="bottom-start"
         onClickOutside={() => setNavMode('days')}
         renderCustomHeader={({
           date,

@@ -1,4 +1,4 @@
-import { Worker, Project, Assignment, Client, WorkerEarning, WorkerPayment, ProjectClientPayment } from '../models/types';
+import { Worker, Project, Assignment, Client, WorkerEarning, WorkerPayment, ProjectClientPayment, WorkflowActivity } from '../models/types';
 import { getDatesInRange } from '../utils/dateUtils';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -43,6 +43,10 @@ export interface DataService {
   getSubcontractorInvoiceAllocations(): import('../models/types').SubcontractorInvoiceAllocation[];
   saveSubcontractorInvoice(invoice: import('../models/types').SubcontractorInvoice, allocations: import('../models/types').SubcontractorInvoiceAllocation[]): { invoice: import('../models/types').SubcontractorInvoice, allocations: import('../models/types').SubcontractorInvoiceAllocation[] };
   deleteSubcontractorInvoice(id: string): void;
+
+  getWorkflowActivities(): WorkflowActivity[];
+  saveWorkflowActivity(activity: WorkflowActivity): WorkflowActivity;
+  deleteWorkflowActivity(id: string): void;
 }
 
 export class LocalStorageService implements DataService {
@@ -307,5 +311,28 @@ export class LocalStorageService implements DataService {
 
     const allocations = this.getSubcontractorInvoiceAllocations().filter(a => a.invoiceId !== id);
     this.setItems('lazarus_subcontractor_invoice_allocations', allocations);
+  }
+
+  getWorkflowActivities(): WorkflowActivity[] {
+    return this.getItems<WorkflowActivity>('lazarus_workflow_activities');
+  }
+
+  saveWorkflowActivity(activity: WorkflowActivity): WorkflowActivity {
+    const activities = this.getWorkflowActivities();
+    const index = activities.findIndex(a => a.id === activity.id);
+    const activityToSave = activity.id ? activity : { ...activity, id: uuidv4() };
+
+    if (index >= 0) {
+      activities[index] = activityToSave;
+    } else {
+      activities.push(activityToSave);
+    }
+    this.setItems('lazarus_workflow_activities', activities);
+    return activityToSave;
+  }
+
+  deleteWorkflowActivity(id: string): void {
+    const activities = this.getWorkflowActivities().filter(a => a.id !== id);
+    this.setItems('lazarus_workflow_activities', activities);
   }
 }

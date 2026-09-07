@@ -1,0 +1,254 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--color-bg);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.stickyContainer {
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.header {
+  padding: 0 24px 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+.projectName {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.projectTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.projectClient {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+}
+
+.timelineWrapper {
+  flex: 1;
+  padding: 24px;
+  background-color: var(--color-bg);
+}
+
+.timelineContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.timelineHeader {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 2px solid var(--color-border);
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  min-width: max-content;
+}
+
+.weeksRow {
+  display: grid;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.weekCell {
+  padding: 8px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  border-right: 1px solid var(--color-border);
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+}
+
+.daysRow {
+  display: grid;
+}
+
+.dayCell {
+  padding: 8px 4px;
+  text-align: center;
+  border-right: 1px solid var(--color-border);
+  font-size: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.dayCellWeekend {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.dayName {
+  color: var(--color-text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+.dayDate {
+  color: var(--color-text);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+.dayToday {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+
+
+.activityRow {
+  display: grid;
+  min-height: 36px;
+  border-bottom: 1px solid var(--color-border-light);
+  position: relative;
+}
+
+.activityRow:hover {
+  background-color: var(--color-bg-tertiary);
+}
+
+.gridLines {
+  display: grid;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.gridLine {
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  min-width: 0;
+}
+
+.gridLineWeekend {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.activityBlockContainer {
+  display: grid;
+  position: relative;
+  z-index: 1;
+  padding: 0;
+  min-width: 0;
+}
+
+.activityBlock {
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: 0;
+  padding: 4px 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: filter 0.1s;
+}
+
+.activityBlock:hover {
+  filter: brightness(1.1);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 24px;
+  text-align: center;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--color-border);
+  margin: 24px;
+}
+
+.emptyStateIcon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  color: var(--color-text-muted);
+}
+
+.emptyState h3 {
+  font-size: 1.25rem;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.emptyState p {
+  color: var(--color-text-secondary);
+  margin-bottom: 24px;
+  max-width: 400px;
+}
+
+.timelineBody { min-width: max-content; }
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.zoomControl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--color-bg-secondary);
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.zoomIcon {
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+.zoomSlider {
+  width: 100px;
+  cursor: pointer;
+  accent-color: var(--color-primary);
+}

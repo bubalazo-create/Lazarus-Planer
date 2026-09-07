@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useAppContext } from '../../context/AppContext';
 import { getProjectDisplayName } from '../../utils/projectUtils';
@@ -8,6 +8,7 @@ import ProjectForm from '../../components/Forms/ProjectForm';
 import ConfirmDialog from '../../components/common/ConfirmDialog';
 import ProjectScheduleView from '../ProjectScheduleView/ProjectScheduleView';
 import ProjectFinancials from '../ProjectFinancialsView/ProjectFinancials';
+import ProjectWorkflowView from '../ProjectWorkflowView/ProjectWorkflowView';
 import { parseISO } from 'date-fns';
 import styles from './ProjectProfileView.module.css';
 
@@ -18,7 +19,7 @@ interface ProjectProfileViewProps {
 
 export default function ProjectProfileView({ projectId, onBack }: ProjectProfileViewProps) {
   const { state, dispatch } = useAppContext();
-  const [view, setView] = useState<'profile' | 'schedule' | 'financials'>('profile');
+  const [view, setView] = useState<'profile' | 'schedule' | 'financials' | 'workflow'>('profile');
   const [isEditing, setIsEditing] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
@@ -41,6 +42,10 @@ export default function ProjectProfileView({ projectId, onBack }: ProjectProfile
 
   if (view === 'financials') {
     return <ProjectFinancials projectId={projectId} onBack={() => setView('profile')} />;
+  }
+
+  if (view === 'workflow') {
+    return <ProjectWorkflowView projectId={projectId} onBack={() => setView('profile')} />;
   }
 
   const clientName = project.clientId ? state.clients.find(c => c.id === project.clientId)?.name : project.client;
@@ -126,6 +131,38 @@ export default function ProjectProfileView({ projectId, onBack }: ProjectProfile
           )}
 
           <div className={styles.actionGrid}>
+            <div 
+              className={styles.actionCard} 
+              onClick={() => {
+                if (project.enableWeeklyWorkflow) {
+                  setView('workflow');
+                } else {
+                  dispatch({ type: 'UPDATE_PROJECT', project: { ...project, enableWeeklyWorkflow: true } });
+                }
+              }}
+            >
+              <div className={styles.actionIcon}>📊</div>
+              <div className={styles.actionTitle}>Weekly Workflow</div>
+              <div style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)', marginTop: '8px', marginBottom: '16px' }}>
+                Plan this project week by week
+              </div>
+              <Button 
+                variant={project.enableWeeklyWorkflow ? "primary" : "secondary"}
+                type="button"
+                style={{ padding: '6px 16px', fontSize: '0.9rem', minHeight: '32px' }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (project.enableWeeklyWorkflow) {
+                    setView('workflow');
+                  } else {
+                    dispatch({ type: 'UPDATE_PROJECT', project: { ...project, enableWeeklyWorkflow: true } });
+                  }
+                }}
+              >
+                {project.enableWeeklyWorkflow ? 'Open' : 'Enable'}
+              </Button>
+            </div>
+            
             <div className={styles.actionCard} onClick={() => setView('schedule')}>
               <div className={styles.actionIcon}>📅</div>
               <div className={styles.actionTitle}>Schedule</div>

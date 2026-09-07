@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, ReactNode, useContext, useEffect, useRef, useState } from 'react';
-import { Assignment, Project, Worker, Client, WorkerEarning, WorkerPayment, ProjectClientPayment, SubcontractorInvoice, SubcontractorInvoiceAllocation, ClientInvoice, Expense, ExpenseAllocation } from '../models/types';
+import { Assignment, Project, Worker, Client, WorkerEarning, WorkerPayment, ProjectClientPayment, SubcontractorInvoice, SubcontractorInvoiceAllocation, ClientInvoice, Expense, ExpenseAllocation, WorkflowActivity } from '../models/types';
 import { LocalStorageService } from '../services/storage';
 import { addDays, formatDate, getDatesInRange } from '../utils/dateUtils';
 import { parseISO } from 'date-fns';
@@ -20,11 +20,12 @@ export interface AppState {
   subcontractorInvoiceAllocations: SubcontractorInvoiceAllocation[];
   expenses: Expense[];
   expenseAllocations: ExpenseAllocation[];
+  workflowActivities: WorkflowActivity[];
   loaded: boolean;
 }
 
 type Action =
-  | { type: 'SET_ALL'; workers: Worker[]; projects: Project[]; clients: Client[]; assignments: Assignment[]; workerEarnings: WorkerEarning[]; workerPayments: WorkerPayment[]; projectClientPayments: ProjectClientPayment[]; clientInvoices: ClientInvoice[]; subcontractorInvoices: SubcontractorInvoice[]; subcontractorInvoiceAllocations: SubcontractorInvoiceAllocation[]; expenses: Expense[]; expenseAllocations: ExpenseAllocation[] }
+  | { type: 'SET_ALL'; workers: Worker[]; projects: Project[]; clients: Client[]; assignments: Assignment[]; workerEarnings: WorkerEarning[]; workerPayments: WorkerPayment[]; projectClientPayments: ProjectClientPayment[]; clientInvoices: ClientInvoice[]; subcontractorInvoices: SubcontractorInvoice[]; subcontractorInvoiceAllocations: SubcontractorInvoiceAllocation[]; expenses: Expense[]; expenseAllocations: ExpenseAllocation[]; workflowActivities: WorkflowActivity[] }
   | { type: 'ADD_WORKER'; worker: Worker }
   | { type: 'UPDATE_WORKER'; worker: Worker }
   | { type: 'DELETE_WORKER'; id: string }
@@ -59,7 +60,10 @@ type Action =
   | { type: 'DELETE_SUBCONTRACTOR_INVOICE'; id: string }
   | { type: 'ADD_EXPENSE'; expense: Expense; allocations: ExpenseAllocation[] }
   | { type: 'UPDATE_EXPENSE'; expense: Expense; allocations: ExpenseAllocation[] }
-  | { type: 'DELETE_EXPENSE'; id: string };
+  | { type: 'DELETE_EXPENSE'; id: string }
+  | { type: 'ADD_WORKFLOW_ACTIVITY'; activity: WorkflowActivity }
+  | { type: 'UPDATE_WORKFLOW_ACTIVITY'; activity: WorkflowActivity }
+  | { type: 'DELETE_WORKFLOW_ACTIVITY'; id: string };
 
 const initialState: AppState = {
   workers: [],
@@ -74,6 +78,7 @@ const initialState: AppState = {
   subcontractorInvoiceAllocations: [],
     expenses: [],
     expenseAllocations: [],
+    workflowActivities: [],
     loaded: false
 };
 
@@ -118,6 +123,7 @@ function reducer(state: AppState, action: Action): AppState {
         subcontractorInvoiceAllocations: action.subcontractorInvoiceAllocations || [],
           expenses: action.expenses || [],
           expenseAllocations: action.expenseAllocations || [],
+          workflowActivities: action.workflowActivities || [],
           loaded: true,
       };
     }
@@ -190,6 +196,7 @@ function reducer(state: AppState, action: Action): AppState {
           subcontractorInvoiceAllocations: state.subcontractorInvoiceAllocations.filter(
           a => a.projectId !== pId
         ),
+          workflowActivities: state.workflowActivities.filter(a => a.projectId !== pId),
       };
     }
     case 'ADD_CLIENT':
@@ -403,6 +410,12 @@ function reducer(state: AppState, action: Action): AppState {
           expenses: state.expenses.filter(e => e.id !== action.id),
           expenseAllocations: state.expenseAllocations.filter(a => a.expenseId !== action.id)
         };
+      case 'ADD_WORKFLOW_ACTIVITY':
+        return { ...state, workflowActivities: [...state.workflowActivities, action.activity] };
+      case 'UPDATE_WORKFLOW_ACTIVITY':
+        return { ...state, workflowActivities: state.workflowActivities.map(a => a.id === action.activity.id ? action.activity : a) };
+      case 'DELETE_WORKFLOW_ACTIVITY':
+        return { ...state, workflowActivities: state.workflowActivities.filter(a => a.id !== action.id) };
       default:
       return state;
   }
@@ -477,7 +490,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
     const subcontractorInvoices = storage.getSubcontractorInvoices();
     const subcontractorInvoiceAllocations = storage.getSubcontractorInvoiceAllocations();
-    dispatch({ type: 'SET_ALL', workers, projects, clients, assignments, workerEarnings, workerPayments, projectClientPayments, clientInvoices, subcontractorInvoices, subcontractorInvoiceAllocations, expenses, expenseAllocations });
+    const workflowActivities = storage.getWorkflowActivities();
+    dispatch({ type: 'SET_ALL', workers, projects, clients, assignments, workerEarnings, workerPayments, projectClientPayments, clientInvoices, subcontractorInvoices, subcontractorInvoiceAllocations, expenses, expenseAllocations, workflowActivities });
     hasLoaded.current = true;
   }, []);
 
@@ -499,6 +513,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     allOk = safeSetItem('lazarus_subcontractor_invoice_allocations', JSON.stringify(state.subcontractorInvoiceAllocations)) && allOk;
     allOk = safeSetItem('lazarus_expenses', JSON.stringify(state.expenses)) && allOk;
     allOk = safeSetItem('lazarus_expense_allocations', JSON.stringify(state.expenseAllocations)) && allOk;
+    allOk = safeSetItem('lazarus_workflow_activities', JSON.stringify(state.workflowActivities)) && allOk;
     
     if (!allOk) {
       setPersistError('⚠️ Storage limit reached. Some changes may not have been saved. Please export a backup immediately.');
