@@ -29,7 +29,11 @@ export default function Layout({ children, activeView, onViewChange }: LayoutPro
             title="Go to Dashboard"
             aria-label="Go to Dashboard"
           >
-            <img src="/lazarus-logo.png" alt="Lazarus Turnkey Contractor" className={styles.brandImage} />
+            <img 
+              src={`${import.meta.env.BASE_URL}lazarus-logo.png`} 
+              alt="Lazarus Turnkey Contractor" 
+              className={styles.brandImage} 
+            />
           </button>
 
           <nav className={styles.desktopNav}>

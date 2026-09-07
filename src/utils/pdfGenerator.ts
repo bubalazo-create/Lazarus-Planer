@@ -30,8 +30,8 @@ export async function generateWorkerStatement(
   let fontName = 'helvetica';
   
   try {
-    const regFontReq = await fetch('/Montserrat-Regular.ttf');
-    const boldFontReq = await fetch('/Montserrat-Bold.ttf');
+    const regFontReq = await fetch(`${import.meta.env.BASE_URL}Montserrat-Regular.ttf`);
+    const boldFontReq = await fetch(`${import.meta.env.BASE_URL}Montserrat-Bold.ttf`);
     
     if (regFontReq.ok && boldFontReq.ok) {
       const regFontBuffer = await regFontReq.arrayBuffer();
@@ -62,7 +62,7 @@ export async function generateWorkerStatement(
   };
 
   try {
-    const logoReq = await fetch('/lazarus-logo.png');
+    const logoReq = await fetch(`${import.meta.env.BASE_URL}lazarus-logo.png`);
     if (logoReq.ok) {
       const logoBlob = await logoReq.blob();
       const logoBase64 = await new Promise<string>((resolve) => {
@@ -293,8 +293,8 @@ export async function generateProjectStatement(
   let fontName = 'helvetica';
   
   try {
-    const regFontReq = await fetch('/Montserrat-Regular.ttf');
-    const boldFontReq = await fetch('/Montserrat-Bold.ttf');
+    const regFontReq = await fetch(`${import.meta.env.BASE_URL}Montserrat-Regular.ttf`);
+    const boldFontReq = await fetch(`${import.meta.env.BASE_URL}Montserrat-Bold.ttf`);
     
     if (regFontReq.ok && boldFontReq.ok) {
       const regFontBuffer = await regFontReq.arrayBuffer();
@@ -325,7 +325,7 @@ export async function generateProjectStatement(
   };
 
   try {
-    const logoReq = await fetch('/lazarus-logo.png');
+    const logoReq = await fetch(`${import.meta.env.BASE_URL}lazarus-logo.png`);
     if (logoReq.ok) {
       const logoBlob = await logoReq.blob();
       const logoBase64 = await new Promise<string>((resolve) => {

@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
   --color-bg: #F1F3F5;
@@ -107,6 +107,7 @@ body.dark-theme {
   --color-text-secondary: #CBD5E1;
   --color-text-muted: #94A3B8;
   --color-today: rgba(245, 130, 32, 0.15);
+  --color-accent-light: rgba(245, 130, 32, 0.15);
   --color-danger-bg: rgba(239, 68, 68, 0.15);
   --color-danger-text: #fca5a5;
   --color-success-bg: rgba(16, 185, 129, 0.15);
@@ -132,27 +133,4 @@ body.dark-theme td {
 }
 
 body.dark-theme [class*="logoBtn"] img, body.dark-theme img[alt="Lazarus Turnkey Contractor"] { filter: invert(1) hue-rotate(180deg) brightness(1.1) contrast(1.2); mix-blend-mode: screen; }
-
-body.dark-theme .header {
-  background-color: var(--color-surface) !important;
-  border-bottom: 1px solid var(--color-border);
-}
-
-body.dark-theme .card {
-  background-color: var(--color-surface);
-  border-color: var(--color-border);
-}
-
-body.dark-theme .tab {
-  color: var(--color-text-secondary);
-}
-
-body.dark-theme .activeTab {
-  color: var(--color-accent);
-}
-
-body.dark-theme .userActions .avatar {
-  background-color: var(--color-accent);
-  color: white;
-}
 

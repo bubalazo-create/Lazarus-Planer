@@ -1,4 +1,4 @@
-﻿import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { getProjectDisplayName } from '../../utils/projectUtils';
 import styles from './HomeView.module.css';
@@ -51,12 +51,12 @@ const WeatherWidget = () => {
          ) : (
             <>
               <div className={styles.weatherMain}>
-                 <span className={styles.weatherTemp}>{weather.current.temp}В°C</span>
+                 <span className={styles.weatherTemp}>{weather.current.temp}°C</span>
                  <span className={styles.weatherIcon}>{weather.current.icon}</span>
               </div>
               <div className={styles.weatherCondition}>{weather.current.condition}</div>
               <div className={styles.weatherDetails}>
-                Feels like {weather.current.feelsLike}В°C<br/>
+                Feels like {weather.current.feelsLike}°C<br/>
                 Wind {weather.current.windSpeed} km/h
               </div>
             </>
@@ -68,7 +68,7 @@ const WeatherWidget = () => {
             <div key={i} className={styles.forecastItem}>
               <div>{f.day}</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                {f.maxTemp}В°C <span>{f.icon}</span>
+                {f.maxTemp}°C <span>{f.icon}</span>
               </div>
             </div>
          ))}
