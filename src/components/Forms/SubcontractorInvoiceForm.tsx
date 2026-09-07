@@ -145,7 +145,7 @@ const SubcontractorInvoiceForm: React.FC<SubcontractorInvoiceFormProps> = ({ isO
           />
         )}
         
-        <div style={{ display: 'flex', gap: '12px' }}>
+        <div className={styles.row}>
           <div style={{ flex: 1 }}>
             <DateInput
               label="Date"
@@ -177,7 +177,7 @@ const SubcontractorInvoiceForm: React.FC<SubcontractorInvoiceFormProps> = ({ isO
           {allocations.map((alloc, index) => {
              const projValue = alloc.type === 'other' ? '__other__' : (alloc.projectId || '');
              return (
-              <div key={index} style={{ display: 'flex', gap: '8px', alignItems: 'flex-end', marginBottom: '8px' }}>
+              <div key={index} className={styles.row} style={{ alignItems: 'flex-end', marginBottom: '8px' }}>
                 <div style={{ flex: 1.5 }}>
                   <Select
                     label={index === 0 ? "Project" : ""}
@@ -218,7 +218,7 @@ const SubcontractorInvoiceForm: React.FC<SubcontractorInvoiceFormProps> = ({ isO
           </Button>
         </div>
 
-        <div style={{ display: 'flex', gap: '12px', marginTop: '16px', borderTop: '1px solid var(--color-border)', paddingTop: '16px' }}>
+        <div className={styles.row} style={{ marginTop: '16px', borderTop: '1px solid var(--color-border)', paddingTop: '16px' }}>
           <div style={{ flex: 1 }}>
             <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text)', marginBottom: '8px' }}>VAT Status</label>
             <div style={{ display: 'flex', gap: '8px' }}>

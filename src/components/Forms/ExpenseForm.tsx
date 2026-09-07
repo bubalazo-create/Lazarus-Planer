@@ -8,6 +8,7 @@ import Input from '../common/Input';
 import DateInput from '../common/DateInput';
 import Select from '../common/Select';
 import { getProjectDisplayName } from '../../utils/projectUtils';
+import styles from './WorkerForm.module.css';
 
 interface ExpenseFormProps {
   isOpen: boolean;
@@ -146,9 +147,9 @@ export default function ExpenseForm({ isOpen, onClose, expense }: ExpenseFormPro
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={expense ? 'Edit Expense' : 'Add Expense'}>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <form onSubmit={handleSubmit} className={styles.form}>
         
-        <div style={{ display: 'flex', gap: '12px' }}>
+        <div className={styles.row}>
           <div style={{ flex: 1 }}>
             <DateInput
               label="Date"
@@ -176,7 +177,7 @@ export default function ExpenseForm({ isOpen, onClose, expense }: ExpenseFormPro
           placeholder="e.g. Paint from B&Q"
         />
 
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+        <div className={styles.row} style={{ alignItems: 'flex-start' }}>
           <div style={{ flex: 1 }}>
             <Input
               label="Total Paid / Gross (€)"
@@ -238,7 +239,7 @@ export default function ExpenseForm({ isOpen, onClose, expense }: ExpenseFormPro
             const aGross = aNet + aVat;
 
             return (
-              <div key={idx} style={{ display: 'flex', gap: '8px', alignItems: 'flex-start', marginBottom: '8px' }}>
+              <div key={idx} className={styles.row} style={{ alignItems: 'flex-start', marginBottom: '8px' }}>
                 <div style={{ flex: 1.5 }}>
                   <Select
                     label={idx === 0 ? "Project/Object" : ""}
@@ -320,9 +321,13 @@ export default function ExpenseForm({ isOpen, onClose, expense }: ExpenseFormPro
           </div>
         )}
 
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '16px' }}>
+        <div className={styles.actions}>
           <Button type="button" variant="secondary" onClick={onClose}>Cancel</Button>
-          <Button type="submit" variant="primary">Save Expense</Button>
+          <div className={styles.rightActions}>
+            <Button type="submit" variant="primary">
+              {expense ? 'Save Changes' : 'Add Expense'}
+            </Button>
+          </div>
         </div>
       </form>
     </Modal>

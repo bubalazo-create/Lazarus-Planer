@@ -131,8 +131,8 @@
   }
 
   .mainContent {
-    padding: 16px;
-    padding-bottom: 80px; /* Space for bottom nav */
+    padding: 12px;
+    padding-bottom: calc(80px + env(safe-area-inset-bottom)); /* Space for bottom nav */
   }
 
   .mobileNav {
@@ -141,7 +141,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 64px;
+    height: calc(64px + env(safe-area-inset-bottom));
     background-color: var(--color-surface);
     border-top: 1px solid var(--color-border);
     z-index: 50;

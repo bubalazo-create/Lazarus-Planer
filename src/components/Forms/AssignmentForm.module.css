@@ -28,3 +28,26 @@
   gap: 12px;
   margin-left: auto;
 }
+
+@media (max-width: 767px) {
+  .row {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .actions {
+    flex-direction: column-reverse;
+    gap: 12px;
+  }
+  
+  .rightActions {
+    flex-direction: column;
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  .actions button {
+    width: 100%;
+    min-height: 44px;
+  }
+}
