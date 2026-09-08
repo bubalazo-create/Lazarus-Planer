@@ -76,6 +76,15 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Prevent accidental horizontal page overflow on mobile.
+   Legitimate horizontal scrolling is done on child elements (tables, timeline)
+   which use overflow-x: auto on their own containers.                        */
+@media (max-width: 767px) {
+  body {
+    overflow-x: hidden;
+  }
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

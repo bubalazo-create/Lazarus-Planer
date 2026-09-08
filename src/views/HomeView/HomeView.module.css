@@ -188,6 +188,49 @@
   }
 }
 
+/* ── Mobile breakpoint ───────────────────────────────────────────────── */
+@media (max-width: 767px) {
+
+  /* Single column dashboard */
+  .dashboardGrid {
+    gap: 16px;
+  }
+
+  /* Tighter section gap */
+  .section {
+    gap: 8px;
+  }
+
+  /* 3-col project sublist → 2 cols on mobile */
+  .cardSubList {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Weather card: collapse from 3-col grid to single column */
+  .weatherCard {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Compact assignment row: single column stacked */
+  .compactAssignmentRow {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 8px 10px;
+  }
+
+  /* Shrink large card values slightly */
+  .cardValue {
+    font-size: 1.4rem;
+  }
+
+  /* Shrink weather time/temp */
+  .weatherTime,
+  .weatherTemp {
+    font-size: 1.4rem;
+  }
+}
+
 .cardSubList {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

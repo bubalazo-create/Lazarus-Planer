@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import Button from '../../components/common/Button';
 import WorkerForm from '../../components/Forms/WorkerForm';
@@ -102,32 +102,28 @@ const WorkersListView: React.FC<WorkersListViewProps> = ({ initialWorkerId, onCl
       </header>
       
       {/* Category Tabs */}
-      <div className={styles.categoryTabsContainer} style={{ padding: '0 24px', display: 'flex', gap: '16px', borderBottom: '1px solid var(--color-border)', marginBottom: '16px', overflowX: 'auto' }}>
+      <div className={styles.categoryTabsContainer}>
         <button 
           className={categoryTab === 'All' ? styles.categoryTabActive : styles.categoryTab}
           onClick={() => setCategoryTab('All')}
-          style={{ padding: '12px 16px', background: 'none', border: 'none', borderBottom: categoryTab === 'All' ? '3px solid var(--color-accent)' : '3px solid transparent', fontWeight: 600, color: categoryTab === 'All' ? 'var(--color-accent)' : 'var(--color-text-muted)', cursor: 'pointer', fontSize: '1rem', whiteSpace: 'nowrap' }}
         >
           ALL
         </button>
         <button 
           className={categoryTab === 'employees' ? styles.categoryTabActive : styles.categoryTab}
           onClick={() => setCategoryTab('employees')}
-          style={{ padding: '12px 16px', background: 'none', border: 'none', borderBottom: categoryTab === 'employees' ? '3px solid var(--color-accent)' : '3px solid transparent', fontWeight: 600, color: categoryTab === 'employees' ? 'var(--color-accent)' : 'var(--color-text-muted)', cursor: 'pointer', fontSize: '1rem', whiteSpace: 'nowrap' }}
         >
           EMPLOYEES
         </button>
         <button 
           className={categoryTab === 'subcontractors' ? styles.categoryTabActive : styles.categoryTab}
           onClick={() => setCategoryTab('subcontractors')}
-          style={{ padding: '12px 16px', background: 'none', border: 'none', borderBottom: categoryTab === 'subcontractors' ? '3px solid var(--color-accent)' : '3px solid transparent', fontWeight: 600, color: categoryTab === 'subcontractors' ? 'var(--color-accent)' : 'var(--color-text-muted)', cursor: 'pointer', fontSize: '1rem', whiteSpace: 'nowrap' }}
         >
           SUBCONTRACTORS
         </button>
         <button 
           className={categoryTab === 'self-employed' ? styles.categoryTabActive : styles.categoryTab}
           onClick={() => setCategoryTab('self-employed')}
-          style={{ padding: '12px 16px', background: 'none', border: 'none', borderBottom: categoryTab === 'self-employed' ? '3px solid var(--color-accent)' : '3px solid transparent', fontWeight: 600, color: categoryTab === 'self-employed' ? 'var(--color-accent)' : 'var(--color-text-muted)', cursor: 'pointer', fontSize: '1rem', whiteSpace: 'nowrap' }}
         >
           SELF-EMPLOYED
         </button>
