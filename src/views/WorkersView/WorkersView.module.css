@@ -44,21 +44,43 @@
   .header {
     flex-direction: column;
     align-items: flex-start;
+    gap: 8px;
   }
 
+  /* Keep nav buttons on one row — they should NOT stack vertically */
   .navControls {
     width: 100%;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .navControls button {
+    flex: 0 0 auto;   /* buttons do not stretch */
+    padding: 8px 10px;
+    font-size: 0.85rem;
+    min-height: 44px;
+  }
+
+  /* Week label goes full-width below the buttons */
+  .weekLabel {
+    font-size: 0.9rem;
+    margin-left: 0;
+    width: 100%;
+    order: 10;          /* push it after the buttons */
   }
 
   .actions {
     width: 100%;
-    justify-content: flex-end;
+    justify-content: flex-start;
   }
 
-  .weekLabel {
-    font-size: 0.95rem;
-    margin-left: 0;
+  .actionControls {
     width: 100%;
+  }
+
+  .actionControls button {
+    width: 100%;
+    min-height: 44px;
   }
 }
 

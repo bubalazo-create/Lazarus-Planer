@@ -78,3 +78,47 @@
   color: var(--color-text-muted);
   margin-top: 4px;
 }
+
+/* ── Mobile breakpoint ───────────────────────────────────────────────── */
+@media (max-width: 767px) {
+
+  /* Reduce outer container padding */
+  .container {
+    padding: 12px;
+  }
+
+  /* Header row: stack title and button on narrow screens */
+  .header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  /* Summary card: go full width */
+  .summaryCard {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+  }
+
+  /* Table: tighten cell padding so more columns fit before horizontal scroll kicks in */
+  .table th,
+  .table td {
+    padding: 8px 10px;
+    font-size: 0.82rem;
+  }
+
+  .table th {
+    font-size: 0.75rem;
+  }
+
+  /* Action buttons inside cells: tighten */
+  .actionBtn {
+    padding: 4px 6px;
+    font-size: 0.8rem;
+  }
+}
