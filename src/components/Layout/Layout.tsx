@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Layout.module.css';
 
 export interface LayoutProps {
@@ -18,7 +18,30 @@ const VIEWS = [
   { id: 'settings', label: 'Settings', icon: <><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></> },
 ];
 
+const PRIMARY_MOBILE_VIEWS = [
+  { id: 'home', label: 'Home', icon: <><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></> },
+  VIEWS.find(v => v.id === 'projects')!,
+  VIEWS.find(v => v.id === 'workers')!,
+  VIEWS.find(v => v.id === 'calendar')!,
+];
+
+const SECONDARY_MOBILE_VIEWS = [
+  VIEWS.find(v => v.id === 'clients')!,
+  VIEWS.find(v => v.id === 'finances')!,
+  VIEWS.find(v => v.id === 'expenses')!,
+  VIEWS.find(v => v.id === 'import-centre')!,
+  VIEWS.find(v => v.id === 'settings')!,
+];
+
 export default function Layout({ children, activeView, onViewChange }: LayoutProps) {
+  const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
+
+  const handleMobileNavClick = (id: string) => {
+    setIsMoreMenuOpen(false);
+    onViewChange(id);
+  };
+  
+  const isMoreActive = SECONDARY_MOBILE_VIEWS.some(v => v.id === activeView);
   return (
     <div className={styles.layout}>
       <header className={styles.header}>
@@ -59,11 +82,11 @@ export default function Layout({ children, activeView, onViewChange }: LayoutPro
       </main>
 
       <nav className={styles.mobileNav}>
-        {VIEWS.map((view) => (
+        {PRIMARY_MOBILE_VIEWS.map((view) => (
           <button
             key={view.id}
-            className={`${styles.mobileTab} ${activeView === view.id ? styles.activeMobileTab : ''}`}
-            onClick={() => onViewChange(view.id)}
+            className={`${styles.mobileTab} ${activeView === view.id && !isMoreMenuOpen ? styles.activeMobileTab : ''}`}
+            onClick={() => handleMobileNavClick(view.id)}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               {view.icon}
@@ -71,7 +94,40 @@ export default function Layout({ children, activeView, onViewChange }: LayoutPro
             <span>{view.label}</span>
           </button>
         ))}
+        <button
+          className={`${styles.mobileTab} ${(isMoreActive || isMoreMenuOpen) ? styles.activeMobileTab : ''}`}
+          onClick={() => setIsMoreMenuOpen(!isMoreMenuOpen)}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+          <span>More</span>
+        </button>
       </nav>
+
+      {isMoreMenuOpen && (
+        <>
+          <div className={styles.moreMenuBackdrop} onClick={() => setIsMoreMenuOpen(false)} />
+          <div className={styles.moreMenuSheet}>
+            {SECONDARY_MOBILE_VIEWS.map((view) => (
+              <button
+                key={view.id}
+                className={`${styles.moreMenuItem} ${activeView === view.id ? styles.activeMoreMenuItem : ''}`}
+                onClick={() => handleMobileNavClick(view.id)}
+              >
+                <div className={styles.moreMenuIconWrapper}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    {view.icon}
+                  </svg>
+                </div>
+                <span>{view.label}</span>
+              </button>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }

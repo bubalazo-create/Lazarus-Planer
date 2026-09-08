@@ -1,4 +1,4 @@
-﻿.container {
+.container {
   padding: 24px;
   max-width: 1200px;
   margin: 0 auto;
@@ -170,3 +170,12 @@
 }
 
 .newProjectBox { background: var(--color-bg-tertiary, #f9fafb); padding: 16px; border-radius: var(--radius-sm); border: 1px dashed var(--color-border); } .newProjectBox h4 { margin: 0 0 12px 0; font-size: 14px; color: var(--color-text); }
+
+@media (max-width: 767px) {
+  .container {
+    padding: 12px;
+  }
+  .editForm {
+    grid-template-columns: 1fr;
+  }
+}

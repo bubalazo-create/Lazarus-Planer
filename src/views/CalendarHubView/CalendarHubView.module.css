@@ -80,3 +80,29 @@
   min-height: 0;
   overflow: hidden;
 }
+
+@media (max-width: 767px) {
+  .topNavigation {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    align-items: stretch;
+  }
+  .tabs {
+    justify-content: center;
+  }
+  .tab {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+  .subTabs {
+    overflow-x: auto;
+    padding-bottom: 4px;
+    justify-content: flex-start;
+  }
+  .subTab {
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+}

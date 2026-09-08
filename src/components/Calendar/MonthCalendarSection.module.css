@@ -74,7 +74,7 @@
   flex: 1;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .daysGrid {
     grid-auto-rows: minmax(100px, auto);
   }

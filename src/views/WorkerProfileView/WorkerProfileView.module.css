@@ -208,12 +208,26 @@
   border-radius: var(--radius-md);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
+  .container {
+    padding: 12px;
+  }
   .summaryGrid {
     grid-template-columns: 1fr;
   }
   .table {
     display: block;
     overflow-x: auto;
+  }
+  .table th, .table td {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+  .table th {
+    font-size: 0.75rem;
+  }
+  .actionBtn {
+    padding: 4px 6px;
+    font-size: 0.8rem;
   }
 }

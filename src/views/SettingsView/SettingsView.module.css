@@ -327,3 +327,20 @@
 .toggleInactive:hover {
   background: var(--color-border);
 }
+
+@media (max-width: 767px) {
+  .container {
+    padding: 16px 12px;
+  }
+  .card, .dangerCard {
+    padding: 16px;
+  }
+  .settingRow {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px;
+  }
+  .modal {
+    padding: 16px;
+  }
+}

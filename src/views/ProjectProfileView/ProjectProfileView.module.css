@@ -168,3 +168,31 @@
   font-weight: 600;
   color: var(--color-text);
 }
+
+@media (max-width: 767px) {
+  .content {
+    padding: 12px;
+  }
+  
+  .profileCard {
+    padding: 16px;
+  }
+  
+  .header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  
+  .statusBadge {
+    margin-left: 0;
+  }
+  
+  .actionGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .notesSection {
+    padding: 16px;
+  }
+}

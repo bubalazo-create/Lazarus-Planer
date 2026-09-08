@@ -127,11 +127,24 @@
   text-align: right !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
+  .container {
+    padding: 12px;
+  }
+  .section {
+    padding: 12px;
+  }
   .cardsContainer {
     grid-template-columns: 1fr;
   }
   .outstandingGrid {
     grid-template-columns: 1fr;
+  }
+  .table th, .table td {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+  .table th {
+    font-size: 0.75rem;
   }
 }
